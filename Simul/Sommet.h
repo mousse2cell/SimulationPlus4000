@@ -25,8 +25,9 @@ public:
     void setFaces(std::vector<Face*> faces);
     void addArete(Arete * ar);
     void addFace(Face* fa);
-    void removeArete(Arete* ar);
-    void removeFace(Face* fa);
+    void removeArete(int id);
+    void removeFace(int id);
+    void print(int level) const;
 private:
     std::vector<Face*> faces;
     std::vector<Arete*> aretes;

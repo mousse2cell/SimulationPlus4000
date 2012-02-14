@@ -22,6 +22,7 @@ public:
 	Face(int id, std::vector<Cellule*> cells);
 	Face(int id, std::vector<Cellule*> cells, CentreFace* cent);
 	Face(int id, std::vector<Cellule*> cells, CentreFace* cent, std::vector<Sommet*> s);
+	Face(int id, std::vector<Cellule*> cells, CentreFace* cent, std::vector<Sommet*> s, std::vector<Triangle*> t);
 	virtual ~Face();
 	int getID() const;
 	void setID(const int id);
@@ -33,19 +34,22 @@ public:
     void setSommets(std::vector<Sommet*> sommets);
     void addSommet(Sommet* sommet);
     void addCellule(Cellule* cell);
-    void removeCellule(Cellule* cell);
-    void removeSommet(Sommet* sommet);
+    void addTriangle(Triangle* tri);
+    void removeTriangle(int id);
+    void removeCellule(int id);
+    void removeSommet(int id);
     void changeCellule(Cellule* from, Cellule* to);
-    CVector getCentroid() const;
-    void setCentroid(CVector centroid);
     void buildTriangle();
-    void evalCentroid();
+    void evalCentreFace();
+    std::vector<Triangle*> getTriangles() const;
+    void setTriangles(std::vector<Triangle*> triangles);
+    void print(int level) const;
 private:
 	int ID;
 	std::vector<Cellule*> cellules;//cellules voisines
 	CentreFace* centreFace;
 	std::vector<Sommet*> sommets;
-	CVector centroid;
+	std::vector<Triangle *> triangles;
 
 };
 

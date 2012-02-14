@@ -6,7 +6,7 @@
  */
 
 #include "Ligne.h"
-
+#include <iostream>
 Ligne::Ligne() {
 	// TODO Auto-generated constructor stub
 

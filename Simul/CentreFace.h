@@ -18,6 +18,7 @@ public:
 	virtual ~CentreFace();
     Face* getFace() const;
     void setFace(Face* face);
+    void print(int level) const;
 private:
     Face* face;
 };

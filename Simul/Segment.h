@@ -20,12 +20,16 @@ public:
     std::vector<Point*> getPoints() const;
     void setTriangles(std::vector<Triangle *> tr);
     void setPoints(std::vector<Point*> points);
-    void addPoint(Point* p);
-    void removePoint(Point* p);
     void addTriangle(Triangle * ta);
-	void removeTriangle(Triangle * ta);
+	void removeTriangle(int id);
+	void print(int level) const;
+    CentreFace *getCentreFace() const;
+    Sommet *getSommet() const;
+    void setCentreFace(CentreFace *centreFace);
+    void setSommet(Sommet *sommet);
 private:
-	std::vector<Point*> points;
+	Sommet * sommet;
+	CentreFace * centreFace;
 	std::vector<Triangle*> triangles;
 };
 

@@ -70,6 +70,22 @@ std::vector<Sommet*> Cellule::getSommets() const
 	return listSommets;
 }
 
+void Cellule::print(int level) const
+{
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"Cellule ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Centroid : "<<centroid.getX()<<"; "<<centroid.getY()<<"; "<<centroid.getZ()<<std::endl;
+	std::cout<<tab<<"Faces : "<<std::endl;
+	for(unsigned int i=0;i<faces.size();i++){
+		faces[i]->print(level+1);
+	}
+}
+
+
+
 
 
 

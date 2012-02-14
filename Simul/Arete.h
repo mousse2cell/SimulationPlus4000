@@ -23,8 +23,9 @@ public:
     void setSommets(std::vector<Sommet*> sommets);
     void addTriangle(Triangle * fa);
     void addSommet(Sommet* so);
-    void removeTriangle(Triangle * fa);
-    void removeSommet(Sommet* so);
+    void removeTriangle(int id);
+    void removeSommet(int id);
+    void print(int level) const;
 private:
 	std::vector<Sommet*> sommets;
 	std::vector<Triangle*> triangles;

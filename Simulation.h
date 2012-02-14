@@ -29,7 +29,7 @@ public:
     void setBoxRadius(float boxRadius);
     void setCellRadius(float cellRadius);
     void setNombreCellules(int nombreCellules);
-    void setupFromFile(std::string file);
+    void setupFromFile(std::string centroid, std::string voronoi);
 	static std::vector<Cellule> CELLULES;
 	static std::vector<Face> FACES;
 	static std::vector<Triangle> TRIANGLES;

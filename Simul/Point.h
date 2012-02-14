@@ -20,6 +20,7 @@ public:
     int getID() const;
     void setCoord(CVector coord);
     void setID(int id);
+    void print(int level) const;
 protected:
 	int ID;
 	CVector coord;

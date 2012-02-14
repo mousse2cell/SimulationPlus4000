@@ -29,6 +29,7 @@ public:
     CVector getCentroid() const;
     void setCentroid(CVector centroid);
     std::vector<Sommet * > getSommets() const;
+    void print(int level) const;
 private:
 	int ID;
 	CVector centroid;

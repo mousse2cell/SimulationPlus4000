@@ -8,7 +8,7 @@
 #include "Segment.h"
 #include "Triangle.h"
 #include <iostream>
-Segment::Segment() {
+Segment::Segment():Ligne(-1) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -22,60 +22,66 @@ std::vector<Triangle*> Segment::getTriangles() const
     return triangles;
 }
 
-std::vector<Point*> Segment::getPoints() const
-{
-    return points;
-}
 
 void Segment::setTriangles(std::vector<Triangle*> tr)
 {
     this->triangles = tr;
 }
 
-void Segment::setPoints(std::vector<Point*> points)
-{
-    this->points = points;
-}
-
-void Segment::addPoint(Point *p)
-{
-	if(points.size()>2){
-		std::cout<<"Erreur : tentative d'insertion d'un 3ième point à un segment"<<std::endl;
-		return;
-	}
-	points.push_back(p);
-}
-
-
-
-void Segment::removePoint(Point *p)
-{
-	std::vector<Point*>::iterator i;
-	for(i=points.begin();i!=points.end();++i){
-		Point* cs = *i;
-		if(p->getID()==cs->getID()){
-			points.erase(i);
-			return;
-		}
-	}
-}
 void Segment::addTriangle(Triangle *ta)
 {
 	triangles.push_back(ta);
 }
 
 
-void Segment::removeTriangle(Triangle *ta)
+void Segment::removeTriangle(int id)
 {
 	std::vector<Triangle*>::iterator i;
 	for(i=triangles.begin();i!=triangles.end();++i){
 		Triangle* cs = *i;
-		if(ta->getID()==cs->getID()){
+		if(id==cs->getID()){
 			triangles.erase(i);
 			return;
 		}
 	}
 }
+
+void Segment::print(int level) const
+{
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"Segment ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Sommet : "<<std::endl;
+	std::cout<<"fdsfds "<<sommet->getID()<<std::endl;
+	sommet->print(level+1);
+	centreFace->print(level+1);
+}
+
+CentreFace *Segment::getCentreFace() const
+{
+    return centreFace;
+}
+
+Sommet *Segment::getSommet() const
+{
+    return sommet;
+}
+
+void Segment::setCentreFace(CentreFace *centreFace)
+{
+    this->centreFace = centreFace;
+}
+
+void Segment::setSommet(Sommet *sommet)
+{
+    this->sommet = sommet;
+}
+
+
+
+
 
 
 

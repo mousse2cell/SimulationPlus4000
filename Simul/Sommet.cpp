@@ -7,7 +7,7 @@
 
 #include "Sommet.h"
 
-Sommet::Sommet() {
+Sommet::Sommet():Point(-1) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -56,12 +56,12 @@ void Sommet::addFace(Face *fa)
 
 
 
-void Sommet::removeArete(Arete *ar)
+void Sommet::removeArete(int id)
 {
 	std::vector<Arete*>::iterator i;
 	for(i=aretes.begin();i!=aretes.end();++i){
 		Arete* cs = *i;
-		if(ar->getID()==cs->getID()){
+		if(id==cs->getID()){
 			aretes.erase(i);
 			return;
 		}
@@ -72,17 +72,31 @@ void Sommet::removeArete(Arete *ar)
 
 
 
-void Sommet::removeFace(Face *fa)
+void Sommet::removeFace(int id)
 {
 	std::vector<Face*>::iterator i;
 	for(i=faces.begin();i!=faces.end();++i){
 		Face* cs = *i;
-		if(fa->getID()==cs->getID()){
+		if(id==cs->getID()){
 			faces.erase(i);
 			return;
 		}
 	}
 }
+
+void Sommet::print(int level) const
+{
+
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"Sommet ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Coord : "<<coord.getX()<<"; "<<coord.getY()<<"; "<<coord.getZ()<<std::endl;
+
+}
+
+
 
 
 

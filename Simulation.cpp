@@ -35,9 +35,9 @@ Simulation::~Simulation() {
 
 int Simulation::run()
 {
-	getInitialsCentroids();
+	//getInitialsCentroids();
 	int exitcode=system((to_string("qvoronoi o Fv < ")+SpidV::CENTROIDS_FILE+">"+Simulation::TEMP_FILE).c_str());//qhull v Qbb p Fv  <
-	setupFromFile(Simulation::TEMP_FILE);
+	setupFromFile(SpidV::CENTROIDS_FILE,Simulation::TEMP_FILE);
 	return exitcode;
 }
 
@@ -80,23 +80,64 @@ void Simulation::setNombreCellules(int nombreCellules)
     this->nombreCellules = nombreCellules;
 }
 
-void Simulation::setupFromFile(std::string file)
+void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 {
 	int vertexNumber = -1;
 	int faceNumber = -1;
 	bool vertex = false;
 	bool face = false;
-	//bool cells = false;
 	std::string line;
-	ifstream myfile(file.c_str());
 	int compteur = 0;
-	int skip = 0;
+	int skip = 2;
+
 	std::vector<std::string> tmp;
+	// On parse d'abord les centroides !
+	ifstream centfile(centroid.c_str());
+
+	if (centfile.is_open())
+	{
+		while ( centfile.good() )
+		{
+			for(int s = 0; s<=skip;s++){
+				getline (centfile,line);
+			}
+
+			skip = 0;
+			compteur++;
+			tmp.clear();
+			StringWorker::Split(line,tmp," ");
+			std::istringstream issx(tmp[0]);
+			float x;
+			issx >> x;
+			std::istringstream issy(tmp[1]);
+			float y;
+			issy >> y;
+			std::istringstream issz(tmp[2]);
+			float z;
+			issz >> z;
+			Cellule c(compteur);
+			CVector cent(x,y,z);
+			c.setCentroid(cent);
+			Simulation::CELLULES.push_back(c);
+			if(compteur == nombreCellules) break;
+		}
+	}
+	centfile.close();
+
+
+
+	ifstream myfile(voronoi.c_str());
+	compteur = 0;
+	skip = 0;
+	tmp.clear();
 	//std::istringstream* iss;
+
 	if (myfile.is_open())
 	{
+
 		while ( myfile.good() )
 		{
+
 			for(int s = 0; s<=skip;s++){
 				getline (myfile,line);
 			}
@@ -121,13 +162,13 @@ void Simulation::setupFromFile(std::string file)
 						StringWorker::Split(line,tmp," ");
 						if(tmp.size() !=0){
 							std::istringstream iss3(tmp[0]);
-							int x;
+							float x;
 							iss3 >> x;
 							std::istringstream iss4(tmp[1]);
-							int y;
+							float y;
 							iss4 >> y;
 							std::istringstream iss5(tmp[2]);
-							int z;
+							float z;
 							iss5 >> z;
 							CVector cv(x,y,z);
 							Sommet som;
@@ -151,26 +192,36 @@ void Simulation::setupFromFile(std::string file)
 								unsigned int i=0;
 								bool continu = true;
 								std::vector<int> data;
+								std::cout<<"-------"<<std::endl;
 								for(unsigned j=1; j<tmp.size();j++){
 									std::istringstream iss7(tmp[j]);
 									int t1;
 									iss7 >> t1;
+									std::cout<<t1<<std::endl;
 									data.push_back(t1);
-									if(t1 == 0){ continu = false;break;}
+									if(t1 == 0 && j>2){ continu = false;break;}
 
 								}
-								if(continu)
-									for(i=0; i<data.size();i++){
+								if(continu){
+									for(i=2; i<data.size();i++){
 										face.addSommet(&SOMMETS[data[i]-1]);
 										SOMMETS[data[i]-1].addFace(&face);
-										//std::cout<<i<<"__"<<lid<<"__"<<compteur<<std::endl;
+										//std::cout<<i<<"__"<<"__"<<compteur<<std::endl;
 									}
-								if(data.size()==(tmp.size()-1)){
+									std::cout<<i<<"__"<<"__"<<compteur<<std::endl;
 									face.setID(FACES.size()+1);
-									face.evalCentroid();
+									face.evalCentreFace();
 									face.buildTriangle();
-									std::cout<<compteur<<"----------"<<face.getID()<<std::endl;
+									//std::cout<<"rr"<<face.getTriangles()[5]->getSegments()[0]->getID()<<std::endl;
+									/*std::cout<<i<<"__"<<"__"<<compteur<<std::endl;*/
+									face.addCellule(&Simulation::CELLULES[data[0]]);
+									face.addCellule(&Simulation::CELLULES[data[1]]);
 									FACES.push_back(face);
+									/*Simulation::CELLULES[data[0]].addFace(&FACES[FACES.size()-1]);
+									Simulation::CELLULES[data[1]].addFace(&FACES[FACES.size()-1]);
+									std::cout<<compteur<<"----------"<<face.getID()<<std::endl;*/
+									//std::cout<<"eee "<<face.getTriangles()[0]->getSegments()[0]->getID()<<std::endl;
+									//Simulation::CELLULES[data[0]].print(0);
 								}
 							}
 						}

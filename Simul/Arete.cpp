@@ -57,12 +57,12 @@ void Arete::addTriangle(Triangle *ta)
 
 
 
-void Arete::removeSommet(Sommet *so)
+void Arete::removeSommet(int id)
 {
 	std::vector<Sommet*>::iterator i;
 	for(i=sommets.begin();i!=sommets.end();++i){
 		Sommet* cs = *i;
-		if(so->getID()==cs->getID()){
+		if(id==cs->getID()){
 			sommets.erase(i);
 			return;
 		}
@@ -73,15 +73,30 @@ void Arete::removeSommet(Sommet *so)
 
 
 
-void Arete::removeTriangle(Triangle *ta)
+void Arete::removeTriangle(int id)
 {
 	std::vector<Triangle*>::iterator i;
 	for(i=triangles.begin();i!=triangles.end();++i){
 		Triangle* cs = *i;
-		if(ta->getID()==cs->getID()){
+		if(id==cs->getID()){
 			triangles.erase(i);
 			return;
 		}
 	}
 }
+
+void Arete::print(int level) const
+{
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"Arete ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Sommets : "<<std::endl;
+	for(unsigned int i=0;i<sommets.size();i++){
+		sommets[i]->print(level+1);
+	}
+}
+
+
 

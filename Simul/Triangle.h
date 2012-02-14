@@ -25,12 +25,15 @@ public:
     void setID(int id);
     void setSegments(std::vector<Segment*> lignes); //STOCKER TENSEUR (SIGMA 3D)
     void addSegment(Segment* s);
-    void removeSegment(Segment* s);
+    void removeSegment(int id);
+    void addSommet(Sommet * s);
+    void removeSommet(int id);
     CentreFace *getCentreFace() const;
     std::vector<Sommet*> getSommets() const;
     void setCentreFace(CentreFace *centreFace);
     void setSommets(std::vector<Sommet*> sommets);
     void buildLignes();
+    void print(int level) const;
 private:
     int ID;
     CentreFace * centreFace;

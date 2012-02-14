@@ -6,7 +6,7 @@
  */
 
 #include "Point.h"
-
+#include <iostream>
 Point::Point():ID(-1) {
 	// TODO Auto-generated constructor stub
 
@@ -41,6 +41,18 @@ void Point::setID(int id)
 {
     ID = id;
 }
+
+void Point::print(int level) const
+{
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"Point ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Coord : "<<coord.getX()<<"; "<<coord.getY()<<"; "<<coord.getZ()<<std::endl;
+}
+
+
 
 
 

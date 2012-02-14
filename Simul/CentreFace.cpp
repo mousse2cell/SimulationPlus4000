@@ -30,5 +30,17 @@ void CentreFace::setFace(Face* face)
     this->face = face;
 }
 
+void CentreFace::print(int level) const
+{
+	std::string tab = "";
+	for(int i=0;i<level;i++){
+		tab+="\t";
+	}
+	std::cout<<tab<<"CentreFace ID : "<<this->ID<<std::endl;
+	std::cout<<tab<<"Coord : "<<coord.getX()<<"; "<<coord.getY()<<"; "<<coord.getZ()<<std::endl;
+}
+
+
+
 
 
