@@ -118,26 +118,26 @@ void Triangle::buildLignes()
 {
 	if(sommets.size()>1){
 		if(Simulation::ARETES.find(to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID()))==Simulation::ARETES.end()){
-			Arete ar;
-			ar.setID(Simulation::ARETES.size()+1);
-			ar.addSommet(sommets[0]);
-			ar.addSommet(sommets[1]);
+			Arete* ar = new Arete();
+			ar->setID(Simulation::ARETES.size()+1);
+			ar->addSommet(sommets[0]);
+			ar->addSommet(sommets[1]);
 			Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())] = ar;
-			this->arete = &Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
+			this->arete = Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
 		}else{
-			this->arete = &Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
+			this->arete = Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
 		}
 		if(centreFace->getID()!=-1){
 			for(int i=0;i<2;i++){
 				if(Simulation::SEGMENTS.find(to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID()))==Simulation::SEGMENTS.end()){
-					Segment s;
-					s.setID(Simulation::SEGMENTS.size()+1);
-					s.setCentreFace(centreFace);
-					s.setSommet(sommets[i]);
+					Segment* s = new Segment();
+					s->setID(Simulation::SEGMENTS.size()+1);
+					s->setCentreFace(centreFace);
+					s->setSommet(sommets[i]);
 					Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())] = s;
-					addSegment(&Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
+					addSegment(Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
 				}else{
-					addSegment(&Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
+					addSegment(Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
 				}
 			}
 		}

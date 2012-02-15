@@ -54,7 +54,6 @@ void Segment::print(int level) const
 	}
 	std::cout<<tab<<"Segment ID : "<<this->ID<<std::endl;
 	std::cout<<tab<<"Sommet : "<<std::endl;
-	std::cout<<"fdsfds "<<sommet->getID()<<std::endl;
 	sommet->print(level+1);
 	centreFace->print(level+1);
 }

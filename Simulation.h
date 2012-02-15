@@ -30,13 +30,14 @@ public:
     void setCellRadius(float cellRadius);
     void setNombreCellules(int nombreCellules);
     void setupFromFile(std::string centroid, std::string voronoi);
-	static std::vector<Cellule> CELLULES;
-	static std::vector<Face> FACES;
-	static std::vector<Triangle> TRIANGLES;
-	static map<std::string, Arete> ARETES; // clef = id_pt_1--id_pt_2
-	static map<std::string, Segment>  SEGMENTS; // clef = id_centre_face--id_sommet
-	static std::vector<Sommet> SOMMETS;
-	static std::vector<CentreFace> CENTREFACE;
+	static std::vector<Cellule*> CELLULES;
+	static std::vector<Face*> FACES;
+	static std::vector<Triangle*> TRIANGLES;
+	static map<std::string, Arete*> ARETES; // clef = id_pt_1--id_pt_2
+	static map<std::string, Segment*>  SEGMENTS; // clef = id_centre_face--id_sommet
+	static std::vector<Sommet*> SOMMETS;
+	static std::vector<CentreFace*> CENTREFACE;
+	static void cleanStatic();
 private:
 	static int DEFAULT_CELLS_NUMBER;
 	static float DEFAULT_BOX_RADIUS;

@@ -133,24 +133,25 @@ void Face::changeCellule(Cellule *from, Cellule *to)
 void Face::buildTriangle()
 {
 	for(unsigned int i = 0; i<sommets.size()-1;i++){
-		Triangle t;
-		t.setCentreFace(centreFace);
-		t.addSommet(sommets[i]);
-		t.addSommet(sommets[i+1]);
-		t.buildLignes();
-		t.setID(Simulation::TRIANGLES.size()+1);
+		Triangle* t = new Triangle();
+		t->setCentreFace(centreFace);
+		t->addSommet(sommets[i]);
+		t->addSommet(sommets[i+1]);
+		t->buildLignes();
+		t->setID(Simulation::TRIANGLES.size()+1);
 		//std::cout<<"aaa "<<t.getSegments()[0]->getID()<<std::endl;
 		Simulation::TRIANGLES.push_back(t);
-		this->addTriangle(&Simulation::TRIANGLES[Simulation::TRIANGLES.size()-1]);
+		this->addTriangle(Simulation::TRIANGLES[Simulation::TRIANGLES.size()-1]);
 	}
-	Triangle t;
-	t.setID(Simulation::TRIANGLES.size()+1);
-	t.setCentreFace(centreFace);
-	t.addSommet(sommets[sommets.size()-1]);
-	t.addSommet(sommets[0]);
-	t.buildLignes();
+	Triangle* t = new Triangle() ;
+	t->setID(Simulation::TRIANGLES.size()+1);
+	t->setCentreFace(centreFace);
+	t->addSommet(sommets[sommets.size()-1]);
+	t->addSommet(sommets[0]);
+	t->buildLignes();
 	Simulation::TRIANGLES.push_back(t);
-	this->addTriangle(&Simulation::TRIANGLES[Simulation::TRIANGLES.size()-1]);
+	this->addTriangle(Simulation::TRIANGLES[Simulation::TRIANGLES.size()-1]);
+
 }
 
 
@@ -161,12 +162,12 @@ void Face::evalCentreFace()
 	for(unsigned int i=0;i<sommets.size();i++){
 		v = v + sommets[i]->getCoord();
 	}
-	CentreFace cf;
-	cf.setID(Simulation::CENTREFACE.size()+1);
-	cf.setCoord(v);
-	cf.setFace(this);
+	CentreFace* cf = new CentreFace();
+	cf->setID(Simulation::CENTREFACE.size()+1);
+	cf->setCoord(v);
+	cf->setFace(this);
 	Simulation::CENTREFACE.push_back(cf);
-	centreFace = &Simulation::CENTREFACE[Simulation::CENTREFACE.size()-1];
+	centreFace = Simulation::CENTREFACE[Simulation::CENTREFACE.size()-1];
 }
 
 std::vector<Triangle*> Face::getTriangles() const

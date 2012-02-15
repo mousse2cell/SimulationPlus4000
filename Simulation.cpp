@@ -14,14 +14,14 @@ int Simulation::DEFAULT_CELLS_NUMBER = 20;
 float Simulation::DEFAULT_BOX_RADIUS = 100.0f;
 float Simulation::DEFAULT_CELL_RADIUS = 20.0f;
 std::string Simulation::TEMP_FILE = "tmp.txt";
-std::vector<Cellule> Simulation::CELLULES;
-std::vector<Face> Simulation::FACES;
-std::vector<Triangle> Simulation::TRIANGLES;
+std::vector<Cellule*> Simulation::CELLULES;
+std::vector<Face*> Simulation::FACES;
+std::vector<Triangle*> Simulation::TRIANGLES;
 //std::vector<Arete> Simulation::ARETES;
-map<std::string,Segment > Simulation::SEGMENTS;
-std::vector<Sommet> Simulation::SOMMETS;
-std::vector<CentreFace> Simulation::CENTREFACE;
-map<std::string,Arete > Simulation::ARETES;
+map<std::string,Segment *> Simulation::SEGMENTS;
+std::vector<Sommet*> Simulation::SOMMETS;
+std::vector<CentreFace*> Simulation::CENTREFACE;
+map<std::string,Arete* > Simulation::ARETES;
 
 Simulation::Simulation() {
 	setNombreCellules(DEFAULT_CELLS_NUMBER);
@@ -115,9 +115,9 @@ void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 			std::istringstream issz(tmp[2]);
 			float z;
 			issz >> z;
-			Cellule c(compteur);
+			Cellule* c = new Cellule(compteur);
 			CVector cent(x,y,z);
-			c.setCentroid(cent);
+			c->setCentroid(cent);
 			Simulation::CELLULES.push_back(c);
 			if(compteur == nombreCellules) break;
 		}
@@ -171,9 +171,9 @@ void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 							float z;
 							iss5 >> z;
 							CVector cv(x,y,z);
-							Sommet som;
-							som.setID(compteur);
-							som.setCoord(cv);
+							Sommet* som = new Sommet();
+							som->setID(compteur);
+							som->setCoord(cv);
 							SOMMETS.push_back(som);
 						}
 					}else{
@@ -187,41 +187,39 @@ void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 							}else{
 								tmp.clear();
 								StringWorker::Split(line,tmp," ");
-								Face face;
-								face.setID(compteur);
+								Face* face = new Face();
+								face->setID(compteur);
 								unsigned int i=0;
 								bool continu = true;
 								std::vector<int> data;
-								std::cout<<"-------"<<std::endl;
 								for(unsigned j=1; j<tmp.size();j++){
 									std::istringstream iss7(tmp[j]);
 									int t1;
 									iss7 >> t1;
-									std::cout<<t1<<std::endl;
 									data.push_back(t1);
 									if(t1 == 0 && j>2){ continu = false;break;}
 
 								}
 								if(continu){
 									for(i=2; i<data.size();i++){
-										face.addSommet(&SOMMETS[data[i]-1]);
-										SOMMETS[data[i]-1].addFace(&face);
+										face->addSommet(SOMMETS[data[i]-1]);
+										SOMMETS[data[i]-1]->addFace(face);
 										//std::cout<<i<<"__"<<"__"<<compteur<<std::endl;
 									}
-									std::cout<<i<<"__"<<"__"<<compteur<<std::endl;
-									face.setID(FACES.size()+1);
-									face.evalCentreFace();
-									face.buildTriangle();
+									face->setID(FACES.size()+1);
+									face->evalCentreFace();
+									face->buildTriangle();
 									//std::cout<<"rr"<<face.getTriangles()[5]->getSegments()[0]->getID()<<std::endl;
 									/*std::cout<<i<<"__"<<"__"<<compteur<<std::endl;*/
-									face.addCellule(&Simulation::CELLULES[data[0]]);
-									face.addCellule(&Simulation::CELLULES[data[1]]);
+									face->addCellule(Simulation::CELLULES[data[0]]);
+									face->addCellule(Simulation::CELLULES[data[1]]);
 									FACES.push_back(face);
-									/*Simulation::CELLULES[data[0]].addFace(&FACES[FACES.size()-1]);
-									Simulation::CELLULES[data[1]].addFace(&FACES[FACES.size()-1]);
-									std::cout<<compteur<<"----------"<<face.getID()<<std::endl;*/
+									Simulation::CELLULES[data[0]]->addFace(FACES[FACES.size()-1]);
+									Simulation::CELLULES[data[1]]->addFace(FACES[FACES.size()-1]);
+									/*std::cout<<compteur<<"----------"<<face.getID()<<std::endl;*/
 									//std::cout<<"eee "<<face.getTriangles()[0]->getSegments()[0]->getID()<<std::endl;
-									//Simulation::CELLULES[data[0]].print(0);
+									//face.print(0);
+									Simulation::CELLULES[data[0]]->print(0);
 								}
 							}
 						}
@@ -234,6 +232,18 @@ void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 		myfile.close();
 	}
 }
+
+void Simulation::cleanStatic()
+{
+	for(unsigned int i=0; i<TRIANGLES.size();i++){
+		delete(TRIANGLES[i]);
+	}
+	for(unsigned int i=0; i<FACES.size();i++){
+		delete(FACES[i]);
+	}
+}
+
+
 
 
 
