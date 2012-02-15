@@ -36,7 +36,7 @@ Simulation::~Simulation() {
 
 int Simulation::run()
 {
-	//getInitialsCentroids();
+	getInitialsCentroids();
 	int exitcode=system((to_string("qvoronoi o Fv < ")+SpidV::CENTROIDS_FILE+">"+Simulation::TEMP_FILE).c_str());//qhull v Qbb p Fv  <
 	setupFromFile(SpidV::CENTROIDS_FILE,Simulation::TEMP_FILE);
 	cleanStatic();
@@ -309,10 +309,13 @@ void Simulation::setupFromFile(std::string centroid, std::string voronoi)
 			}
 		}
 		myfile.close();
-		std::map<int,Cellule *>::const_iterator
+
+		// A DECOMMENTER POUR VOIR LE DETAILS DES CELLULES
+		/*std::map<int,Cellule *>::const_iterator
 		mit (CELLULES.begin()),
 		mend(CELLULES.end());
-		for(;mit!=mend;++mit) mit->second->print(0);
+		for(;mit!=mend;++mit) mit->second->print(0);*/
+		std::cout<<"Nombre de cellules +1 (bordure) : "<<CELLULES.size()<<std::endl;
 
 	}
 }
