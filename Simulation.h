@@ -30,7 +30,7 @@ public:
     void setCellRadius(float cellRadius);
     void setNombreCellules(int nombreCellules);
     void setupFromFile(std::string centroid, std::string voronoi);
-	static std::vector<Cellule*> CELLULES;
+	static map<int,Cellule *> CELLULES;
 	static std::vector<Face*> FACES;
 	static std::vector<Triangle*> TRIANGLES;
 	static map<std::string, Arete*> ARETES; // clef = id_pt_1--id_pt_2
