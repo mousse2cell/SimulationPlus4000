@@ -122,10 +122,12 @@ void Triangle::buildLignes()
 			ar->setID(Simulation::ARETES.size()+1);
 			ar->addSommet(sommets[0]);
 			ar->addSommet(sommets[1]);
+			ar->addTriangle(this);
 			Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())] = ar;
 			this->arete = Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
 		}else{
 			this->arete = Simulation::ARETES[to_string(sommets[0]->getID())+"--"+to_string(sommets[1]->getID())];
+			this->arete->addTriangle(this);
 		}
 		if(centreFace->getID()!=-1){
 			for(int i=0;i<2;i++){
@@ -134,10 +136,12 @@ void Triangle::buildLignes()
 					s->setID(Simulation::SEGMENTS.size()+1);
 					s->setCentreFace(centreFace);
 					s->setSommet(sommets[i]);
+					s->addTriangle(this);
 					Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())] = s;
 					addSegment(Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
 				}else{
 					addSegment(Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]);
+					Simulation::SEGMENTS[to_string(centreFace->getID())+"--"+to_string(sommets[i]->getID())]->addTriangle(this);
 				}
 			}
 		}

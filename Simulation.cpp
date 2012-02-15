@@ -35,7 +35,7 @@ Simulation::~Simulation() {
 
 int Simulation::run()
 {
-	//getInitialsCentroids();
+	getInitialsCentroids();
 	int exitcode=system((to_string("qvoronoi o Fv < ")+SpidV::CENTROIDS_FILE+">"+Simulation::TEMP_FILE).c_str());//qhull v Qbb p Fv  <
 	setupFromFile(SpidV::CENTROIDS_FILE,Simulation::TEMP_FILE);
 	return exitcode;
